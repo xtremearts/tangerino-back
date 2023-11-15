@@ -15,7 +15,6 @@ public class TangerinoApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext ctx = SpringApplication.run(TangerinoApplication.class, args);
 
-
         Environment env = ctx.getEnvironment();
 
         log.info("\n\n *** \n\n" + "\tAplicacao iniciada com sucesso!\n" + "\tDisponivel no endereco:\n"
