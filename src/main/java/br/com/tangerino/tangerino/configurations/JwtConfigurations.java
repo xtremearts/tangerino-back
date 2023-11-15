@@ -31,21 +31,9 @@ class JwtConfigurations {
                 .requestMatchers(HttpMethod.POST, "v1/login")
                 .permitAll()
                 .anyRequest().authenticated()
-                .and().build();
+                .and().addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
-
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.authorizeHttpRequests((requests) -> requests
-//                .requestMatchers(HttpMethod.POST, "v1/login").permitAll()
-//                .anyRequest()
-//                .authenticated())
-//                .httpBasic();
-//
-//        return http.build();
-//    }
-
 
     @Bean
     public AuthenticationManager authenticationManager
