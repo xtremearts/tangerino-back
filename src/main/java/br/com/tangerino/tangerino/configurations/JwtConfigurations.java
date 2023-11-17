@@ -32,7 +32,7 @@ class JwtConfigurations {
                 .permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .cors().and().build();
     }
 
     @Bean
