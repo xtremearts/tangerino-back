@@ -1,6 +1,6 @@
 package br.com.tangerino.tangerino.controller;
 
-import br.com.tangerino.tangerino.model.dtos.LoginDto;
+import br.com.tangerino.tangerino.model.dtos.LoginFilterDto;
 import br.com.tangerino.tangerino.model.entity.Usuario;
 import br.com.tangerino.tangerino.service.TokenService;
 import lombok.AllArgsConstructor;
@@ -22,7 +22,7 @@ public class LoginController {
     private final TokenService tokenService;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public String logar(@RequestBody LoginDto login) {
+    public String logar(@RequestBody LoginFilterDto login) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword());
 
         Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
