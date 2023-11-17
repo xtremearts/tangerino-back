@@ -11,6 +11,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,6 +40,7 @@ public class Usuario implements UserDetails {
 
     @Email
     @NotEmpty(message = "Informe o email para login")
+    @UniqueElements(message = "Email Já cadastrado na base de dados")
     @Size(message = "O email precisa ser válido")
     private String email;
 
