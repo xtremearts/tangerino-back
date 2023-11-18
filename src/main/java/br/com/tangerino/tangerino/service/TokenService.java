@@ -15,7 +15,6 @@ public class TokenService {
                 .withIssuer("login")
                 .withSubject(usuario.getEmail())
                 .withClaim("id", usuario.getId())
-                .withClaim("cpf", usuario.getCpf())
                 .withClaim("nome", usuario.getNome())
                 .withExpiresAt(LocalDateTime.now()
                         .plusMinutes(10)

@@ -8,7 +8,8 @@ import lombok.Setter;
 public class UsuarioFilterDto {
     private Long id;
     private String nome;
-    private String cpf;
     private String email;
     private String password;
+
+
 }

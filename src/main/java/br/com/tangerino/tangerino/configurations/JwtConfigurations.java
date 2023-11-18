@@ -30,6 +30,8 @@ class JwtConfigurations {
                 .and().authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "v1/login")
                 .permitAll()
+                .requestMatchers(HttpMethod.POST, "v1/usuario")
+                .permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .cors().and().build();
