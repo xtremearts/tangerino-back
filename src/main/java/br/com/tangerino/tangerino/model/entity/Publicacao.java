@@ -2,8 +2,8 @@ package br.com.tangerino.tangerino.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
@@ -11,7 +11,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
+@AllArgsConstructor
 public class Publicacao {
 
     @Id
@@ -28,5 +28,7 @@ public class Publicacao {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dtCriacao;
 
-
+    public Publicacao() {
+        this.dtCriacao = new Date();
+    }
 }
