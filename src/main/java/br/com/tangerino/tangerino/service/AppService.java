@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AppService {
 
-    public Usuario getUsuario() {
+    public Usuario getUsuarioToken() {
         return (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

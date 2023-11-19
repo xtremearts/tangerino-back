@@ -4,15 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
-public class PublicacaoDto {
+public class ComentarioDto {
     private Long id;
+    private PublicacaoDto publicacao;
     private UsuarioDto usuario;
-    private String descricao;
+    private String comentario;
     private Date dtCriacao;
-//    private List<ComentarioDto> comentarios;
+
 
 }

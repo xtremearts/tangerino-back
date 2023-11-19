@@ -33,7 +33,7 @@ public class PublicacaoService extends AppService {
     @Transactional(propagation = Propagation.REQUIRED)
     public PublicacaoDto salvar(MultipartFile arquivo, String descricao) {
 
-        Usuario usuarioRecebidoToken = getUsuario();
+        Usuario usuarioRecebidoToken = getUsuarioToken();
         try {
             Publicacao entity = new Publicacao();
             entity.setUsuario(usuarioRecebidoToken);
@@ -72,8 +72,8 @@ public class PublicacaoService extends AppService {
         List<PublicacaoRetornoDto> dto = publicacaoRetornoMapper.toDto(publicacaos);
 
         int i = 0;
-        for (PublicacaoRetornoDto publicacao: dto) {
-                String noArquivo = publicacao.getId() + publicacao.getExtensaoArquivo();
+        for (Publicacao pub: publicacaos) {
+                String noArquivo = pub.getId() + pub.getExtensaoArquivo();
                 dto.get(i).setImagem(imagensService.obterArquivoPorId(noArquivo));
             i++;
         }

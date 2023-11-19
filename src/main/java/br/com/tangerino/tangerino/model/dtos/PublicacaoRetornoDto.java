@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,6 +17,7 @@ public class PublicacaoRetornoDto {
     private String descricao;
     private Date dtCriacao;
     private String extensaoArquivo;
+    private List<ComentarioDto> comentarios;
     private byte[] imagem;
 
 }

@@ -14,4 +14,7 @@ public interface PublicacaoMapper {
     List<PublicacaoDto> toDto(List<Publicacao> entity);
 
     Publicacao toEntity(PublicacaoDto dto);
+
+    List<Publicacao> toEntity(List<PublicacaoDto> dto);
+
 }
