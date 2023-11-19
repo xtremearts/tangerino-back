@@ -8,10 +8,14 @@ import br.com.tangerino.tangerino.model.mappers.PublicacaoMapper;
 import br.com.tangerino.tangerino.model.repository.PublicacaoRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -19,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class PublicacaoService extends AppService {
     private final PublicacaoRepository repository;
     private final PublicacaoMapper mapper;
+    private final ImagensService imagensService;
 
     @Transactional(propagation = Propagation.REQUIRED)
     public PublicacaoDto salvar(MultipartFile arquivo, String descricao) {
@@ -30,11 +35,26 @@ public class PublicacaoService extends AppService {
             entity.setDescricao(descricao);
 
             Publicacao publicacao = repository.save(entity);
+            this.salvarImagemPublicacao(arquivo, publicacao.getId());
+
             return mapper.toDto(publicacao);
 
-        } catch (BusinessException e) {
+        } catch (BusinessException | IOException e) {
             log.error(e.getMessage());
             throw new BusinessException(e.getMessage());
+        }
+    }
+
+    private void salvarImagemPublicacao(MultipartFile arquivo, Long id) throws IOException {
+        try {
+            if (!Objects.equals(arquivo.getContentType(), MediaType.IMAGE_JPEG_VALUE) && !Objects.equals(arquivo.getContentType(), MediaType.IMAGE_PNG_VALUE)) {
+                throw new BusinessException("Permitido apenas os formatos de imagem: jpg ou png.");
+            }
+
+            imagensService.salvarArquivo(arquivo, id.toString());
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            throw new IOException(e.getMessage());
         }
     }
 }
