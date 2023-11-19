@@ -28,6 +28,8 @@ public class Publicacao {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dtCriacao;
 
+    private String extensaoArquivo;
+
     public Publicacao() {
         this.dtCriacao = new Date();
     }

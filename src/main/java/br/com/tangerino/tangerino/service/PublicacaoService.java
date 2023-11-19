@@ -10,6 +10,7 @@ import br.com.tangerino.tangerino.model.mappers.PublicacaoRetornoMapper;
 import br.com.tangerino.tangerino.model.repository.PublicacaoRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -38,8 +39,14 @@ public class PublicacaoService extends AppService {
             entity.setUsuario(usuarioRecebidoToken);
             entity.setDescricao(descricao);
 
+            //Impede de forma segura que formatos diferentes sejam salvos na aplicação
+            tratarTipoArquivoImagem(entity, arquivo);
+
             Publicacao publicacao = repository.save(entity);
-            this.salvarImagemPublicacao(arquivo, publicacao.getId());
+
+            String noArquivo = publicacao.getId() + publicacao.getExtensaoArquivo();
+
+            imagensService.salvarArquivo(arquivo, noArquivo);
 
             return mapper.toDto(publicacao);
 
@@ -49,28 +56,28 @@ public class PublicacaoService extends AppService {
         }
     }
 
-    private void salvarImagemPublicacao(MultipartFile arquivo, Long id) throws IOException {
-        try {
-            if (!Objects.equals(arquivo.getContentType(), MediaType.IMAGE_JPEG_VALUE) && !Objects.equals(arquivo.getContentType(), MediaType.IMAGE_PNG_VALUE)) {
-                throw new BusinessException("Permitido apenas os formatos de imagem: jpg ou png.");
-            }
+    private void tratarTipoArquivoImagem(Publicacao entity, MultipartFile arquivo) {
 
-            imagensService.salvarArquivo(arquivo, id.toString());
-        } catch (IOException e) {
-            log.error(e.getMessage());
-            throw new IOException(e.getMessage());
+        if (!Objects.equals(arquivo.getContentType(), MediaType.IMAGE_JPEG_VALUE) && !Objects.equals(arquivo.getContentType(), MediaType.IMAGE_PNG_VALUE)) {
+            throw new BusinessException("Permitido apenas os formatos de imagem: jpg ou png.");
         }
+
+        if (Objects.equals(arquivo.getContentType(), MediaType.IMAGE_JPEG_VALUE)) entity.setExtensaoArquivo(".jpg");
+        if (Objects.equals(arquivo.getContentType(), MediaType.IMAGE_PNG_VALUE)) entity.setExtensaoArquivo(".png");
     }
 
+
     public List<PublicacaoRetornoDto> obterTodos() {
-        List<Publicacao> publicacaos = repository.findAll();
+        List<Publicacao> publicacaos = repository.findAll(Sort.by(Sort.Direction.DESC, "dtCriacao"));
         List<PublicacaoRetornoDto> dto = publicacaoRetornoMapper.toDto(publicacaos);
 
         int i = 0;
         for (PublicacaoRetornoDto publicacao: dto) {
-                dto.get(i).setImagem(imagensService.obterArquivoPorId());
+                String noArquivo = publicacao.getId() + publicacao.getExtensaoArquivo();
+                dto.get(i).setImagem(imagensService.obterArquivoPorId(noArquivo));
             i++;
         }
         return dto;
     }
+
 }

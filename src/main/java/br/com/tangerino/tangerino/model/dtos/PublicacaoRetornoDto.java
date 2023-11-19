@@ -1,6 +1,5 @@
 package br.com.tangerino.tangerino.model.dtos;
 
-import br.com.tangerino.tangerino.model.entity.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +15,7 @@ public class PublicacaoRetornoDto {
     private UsuarioDto usuario;
     private String descricao;
     private Date dtCriacao;
+    private String extensaoArquivo;
     private byte[] imagem;
 
 }
