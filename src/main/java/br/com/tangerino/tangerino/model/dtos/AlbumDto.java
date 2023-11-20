@@ -7,10 +7,10 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class PublicacaoDto {
+public class AlbumDto {
     private Long id;
-    private UsuarioDto usuario;
-    private String descricao;
+    private String extensaoArquivo;
     private Date dtCriacao;
+    private UsuarioDto usuario;
 
 }
