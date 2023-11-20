@@ -80,4 +80,20 @@ public class AlbumService extends AppService {
         }
         return dto;
     }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deletar(Long id) {
+        try {
+            Album entity = repository.findById(id).orElseThrow();
+
+            if(!entity.getUsuario().getId().equals(getUsuarioToken().getId())) {
+                throw new BusinessException("Exclusão não permitida, o usuário só pode excluir suas fotos");
+            }
+            repository.delete(entity);
+
+        } catch (BusinessException e) {
+            log.error(e.getMessage());
+            throw new BusinessException(e.getMessage());
+        }
+    }
 }

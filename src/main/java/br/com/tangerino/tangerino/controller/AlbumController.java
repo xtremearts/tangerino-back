@@ -29,12 +29,11 @@ public class AlbumController {
         return ResponseEntity.ok(service.obterTodos());
     }
 
-//
-//    @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-//    ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
-//        service.deletar(id);
-//        return new ResponseEntity<Void>(HttpStatus.OK);
-//    }
+    @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
+        service.deletar(id);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
 
 
 }
