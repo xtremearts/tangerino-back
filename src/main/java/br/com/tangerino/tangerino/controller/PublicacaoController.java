@@ -4,6 +4,7 @@ import br.com.tangerino.tangerino.model.dtos.PublicacaoDto;
 import br.com.tangerino.tangerino.model.dtos.PublicacaoRetornoDto;
 import br.com.tangerino.tangerino.service.PublicacaoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,12 @@ public class PublicacaoController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<PublicacaoRetornoDto>> obterTodos() {
         return ResponseEntity.ok(service.obterTodos());
+    }
+
+    @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
+        service.deletar(id);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
 
